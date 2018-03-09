@@ -6,6 +6,7 @@ import systemstudio.elements.FreelancerObjectElement;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
@@ -63,8 +64,26 @@ public class SystemFile {
             systemObjects.add(element);
         }
 
-        System.out.println("Fuck");
+    }
 
+    public void retainObjectsUsingNicknamePrefix(String prefix) {
+
+        prefix = prefix.toLowerCase();
+
+        Iterator<FreelancerObjectElement> iter = systemObjects.iterator();
+
+        while(iter.hasNext()) {
+            FreelancerObjectElement element = iter.next();
+
+            if(!element.getName().toLowerCase().startsWith(prefix)) {
+                iter.remove();
+            }
+
+        }
+    }
+
+    public int getWorkableObjectAmount() {
+        return systemObjects.size();
     }
 
 
