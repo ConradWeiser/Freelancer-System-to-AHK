@@ -82,6 +82,25 @@ public class SystemFile {
         }
     }
 
+    /**
+     * Method which returns the number of elements which has a prefix matching the function input
+     * @param prefix the prefix which should be checked against
+     * @return the number of objects
+     */
+    public int getWorkableObjectAmount(String prefix) {
+
+        int number = 0;
+
+        for(FreelancerObjectElement element : systemObjects) {
+
+            if(element.getName().startsWith(prefix))
+                number++;
+        }
+
+        return number;
+
+    }
+
     public int getWorkableObjectAmount() {
         return systemObjects.size();
     }
