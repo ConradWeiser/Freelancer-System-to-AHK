@@ -30,7 +30,7 @@ public class InterfaceControlView extends JFrame{
 
         this.initForm();
         this.attachListeners();
-
+        mainPanel.setPreferredSize(new Dimension(250, 150));
 
     }
 
