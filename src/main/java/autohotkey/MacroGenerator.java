@@ -1,23 +1,27 @@
 package autohotkey;
 
 
+import systemstudio.SystemFile;
 import systemstudio.elements.FreelancerObjectElement;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.List;
 
 public class MacroGenerator {
 
     File createMacroSaveLocation;
+    SystemFile systemFile;
 
-    public MacroGenerator(File createMacroSaveLocation, File deleteMacroSaveLocation) {
+    public MacroGenerator(File createMacroSaveLocation, SystemFile systemFile) {
 
         this.createMacroSaveLocation = createMacroSaveLocation;
+        this.systemFile = systemFile;
     }
 
-    public void createHotkeyScripts(List<FreelancerObjectElement> availableElements) throws FileNotFoundException {
+    public void createHotkeyScripts(String prefix) throws IOException {
+
+        systemFile.retainObjectsUsingNicknamePrefix(prefix);
+        List<FreelancerObjectElement> availableElements = systemFile.getSystemObjects();
 
         //Generate the contents for both deletion, and creation
         StringBuilder createBuilder = new StringBuilder();
@@ -35,26 +39,57 @@ public class MacroGenerator {
 
             createBuilder.append("SEND, .custombasecreate ");
             createBuilder.append(element.getArchtype() + " ");
-            createBuilder.append(element.getLoadout() + " ");
+
+            //If there is no loadout, give it the null loadout
+            if(element.getLoadout() == null) {
+
+                createBuilder.append("null_loadout ");
+            }
+
+            else {
+
+                createBuilder.append(element.getLoadout() + " ");
+            }
+
+
+
             createBuilder.append(element.getType() + " ");
 
             //Position
             float[] position = element.getPos();
             createBuilder.append(position[0] + " ").append(position[1] + " ").append(position[2] + " ");
 
-            //Rotation
-            float[] rotation = element.getRot();
-            createBuilder.append(rotation[0] + " ").append(rotation[1] + " ").append(rotation[2] + " ");
+            //If the rotation doesn't exist, merely give it 0, 0, 0
+            if(element.getRot() == null) {
+                createBuilder.append("0 0 0 ");
+            }
 
-            createBuilder.append(element.getAffiliation() + " ");
+            else {
+
+                //Rotation
+                float[] rotation = element.getRot();
+                createBuilder.append(rotation[0] + " ").append(rotation[1] + " ").append(rotation[2] + " ");
+
+            }
+
+            //If there is no faction specified, give it freelancer reputation
+            if(element.getAffiliation() == null) {
+
+                createBuilder.append("fc_neural ");
+            }
+
+            else {
+
+                createBuilder.append(element.getAffiliation() + " ");
+
+            }
+
             createBuilder.append(element.getName()).append("\n");
-            createBuilder.append("SEND, {ENTER}");
-            createBuilder.append("SEND, {ENTER}");
+            createBuilder.append("SEND, {ENTER}\n");
 
             //Prepare add the entry for the delete macro
             deleteBuilder.append("SEND, .basedestroy " + element.getName() + "\n");
-            deleteBuilder.append("SEND, {ENTER}");
-            deleteBuilder.append("SEND, {ENTER}");
+            deleteBuilder.append("SEND, {ENTER}\n");
         }
 
         //Add whitespace at the bottom of each to make it look nicer
@@ -62,10 +97,10 @@ public class MacroGenerator {
         deleteBuilder.append("\n\n");
 
         //Write to the files here
-        PrintWriter createMacroOut = new PrintWriter(createMacroSaveLocation);
-        createMacroOut.println(createBuilder.toString());
+        PrintWriter createMacroOut = new PrintWriter(new FileWriter(createMacroSaveLocation));
+        createMacroOut.print(createBuilder.toString());
 
-        createMacroOut.println(deleteBuilder.toString());
+        createMacroOut.print(deleteBuilder.toString());
 
         createMacroOut.close();
 
