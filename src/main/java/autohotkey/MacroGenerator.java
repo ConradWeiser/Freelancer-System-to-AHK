@@ -75,7 +75,7 @@ public class MacroGenerator {
             //If there is no faction specified, give it freelancer reputation
             if(element.getAffiliation() == null) {
 
-                createBuilder.append("fc_neural ");
+                createBuilder.append("fc_neutral ");
             }
 
             else {
