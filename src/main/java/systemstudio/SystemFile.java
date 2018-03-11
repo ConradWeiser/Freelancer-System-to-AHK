@@ -105,5 +105,10 @@ public class SystemFile {
         return systemObjects.size();
     }
 
+    public List<FreelancerObjectElement> getSystemObjects() {
+
+        return this.systemObjects;
+    }
+
 
 }

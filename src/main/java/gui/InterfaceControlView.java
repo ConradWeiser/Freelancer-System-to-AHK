@@ -1,15 +1,15 @@
 package gui;
 
+import autohotkey.MacroGenerator;
 import systemstudio.SystemFile;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -30,6 +30,7 @@ public class InterfaceControlView extends JFrame{
 
         this.initForm();
         this.attachListeners();
+
 
     }
 
@@ -53,12 +54,57 @@ public class InterfaceControlView extends JFrame{
             }
         });
 
+        //Add the listener which runs on the MACRO SAVE button press
+        saveMacroButton.addActionListener(e -> {
+
+            //Don't run this if there is no system file loaded
+
+            if(hasIniFileLoaded) {
+
+                if (e.getSource() == saveMacroButton) {
+
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setCurrentDirectory(new File("."));
+                    fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                    fileChooser.setAcceptAllFileFilterUsed(false);
+
+                    int resultVal = fileChooser.showSaveDialog(mainPanel);
+
+                    if (resultVal == JFileChooser.APPROVE_OPTION) {
+
+                        File folder = new File(fileChooser.getCurrentDirectory().toString() + "\\buildMacro.ahk");
+
+                        //Generate, and print the macro to the directory
+                        try {
+
+                            MacroGenerator macro = new MacroGenerator(folder, systemFile);
+                            macro.createHotkeyScripts(iniPrefixTextField.getText());
+
+                        } catch (FileNotFoundException ex) {
+
+                            ex.printStackTrace();
+                        }
+
+                        catch (IOException ex) {
+
+                            ex.printStackTrace();
+                        }
+
+
+                    }
+                }
+            }
+
+        });
+
         //Add the listener which runs on INI LOAD button press
         loadIniButton.addActionListener(e -> {
 
             if (e.getSource() == loadIniButton) {
 
                 JFileChooser fc = new JFileChooser();
+                fc.setCurrentDirectory(new File("."));
+                fc.setDialogTitle("Open an ini file..");
 
                 //Only allow INI files to be chosen
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(".ini files", "ini");
@@ -80,6 +126,10 @@ public class InterfaceControlView extends JFrame{
 
                         systemFile = new SystemFile(file);
                         hasIniFileLoaded = true;
+
+                        //Set the number of available objets label
+                        valuesLoadedDisplayLabel.setText(systemFile.getWorkableObjectAmount() + " objects with given prefix");
+
 
                     } catch(IOException ex) {
 
