@@ -69,6 +69,8 @@ Messy? Maybe. But it's the correct syntax to get the job done.
 - Run the macro, and reference the commands for usage
 
 ## Commands
+Note: You need to be in the correct system in order for this to work. If you've made edits to li01, you must be in the li01 system. (etc)
+
 Control + Shift + V -- Spawn all of the objects
 
 Control + Shift + Z -- Delete all of the objects (Loud! Turn down your volume)
