@@ -85,10 +85,11 @@ public class MacroGenerator {
             }
 
             createBuilder.append(element.getName()).append("\n");
-            createBuilder.append("SEND, {ENTER}\n");
+            createBuilder.append("SEND, {ENTER}\n").append("SEND, {ENTER}\n");
 
             //Prepare add the entry for the delete macro
             deleteBuilder.append("SEND, .basedestroy " + element.getName() + "\n");
+            deleteBuilder.append("SEND, {ENTER}\n");
             deleteBuilder.append("SEND, {ENTER}\n");
         }
 
