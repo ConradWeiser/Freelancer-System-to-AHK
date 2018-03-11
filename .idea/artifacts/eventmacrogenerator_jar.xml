@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="eventmacrogenerator:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/eventmacrogenerator_jar</output-path>
+    <root id="archive" name="eventmacrogenerator.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="eventmacrogenerator_main" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.ini4j/ini4j/0.5.4/4a3ee4146a90c619b20977d65951825f5675b560/ini4j-0.5.4.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
