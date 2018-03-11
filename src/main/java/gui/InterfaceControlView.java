@@ -72,7 +72,7 @@ public class InterfaceControlView extends JFrame{
 
                     if (resultVal == JFileChooser.APPROVE_OPTION) {
 
-                        File folder = new File(fileChooser.getCurrentDirectory().toString() + "\\buildMacro.ahk");
+                        File folder = new File(fileChooser.getSelectedFile().toString() + "\\buildMacro.ahk");
 
                         //Generate, and print the macro to the directory
                         try {
