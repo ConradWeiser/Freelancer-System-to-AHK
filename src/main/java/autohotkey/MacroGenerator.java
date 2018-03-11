@@ -11,12 +11,10 @@ import java.util.List;
 public class MacroGenerator {
 
     File createMacroSaveLocation;
-    File deleteMacroSaveLocation;
 
     public MacroGenerator(File createMacroSaveLocation, File deleteMacroSaveLocation) {
 
         this.createMacroSaveLocation = createMacroSaveLocation;
-        this.deleteMacroSaveLocation = deleteMacroSaveLocation;
     }
 
     public void createHotkeyScripts(List<FreelancerObjectElement> availableElements) throws FileNotFoundException {
@@ -59,15 +57,17 @@ public class MacroGenerator {
             deleteBuilder.append("SEND, {ENTER}");
         }
 
+        //Add whitespace at the bottom of each to make it look nicer
+        createBuilder.append("\n\n");
+        deleteBuilder.append("\n\n");
+
         //Write to the files here
         PrintWriter createMacroOut = new PrintWriter(createMacroSaveLocation);
         createMacroOut.println(createBuilder.toString());
 
-        PrintWriter deleteMacroOut = new PrintWriter(deleteMacroSaveLocation);
-        deleteMacroOut.println(deleteBuilder.toString());
+        createMacroOut.println(deleteBuilder.toString());
 
         createMacroOut.close();
-        deleteMacroOut.close();
 
 
     }
