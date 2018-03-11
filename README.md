@@ -70,6 +70,7 @@ Messy? Maybe. But it's the correct syntax to get the job done.
 
 ## Commands
 Control + Shift + V -- Spawn all of the objects
+
 Control + Shift + Z -- Delete all of the objects (Loud! Turn down your volume)
 
 ## Things to note
